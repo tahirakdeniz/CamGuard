@@ -1,61 +1,113 @@
+
 # CamGuard
 
-## Overview
+CamGuard is a Python-based real-time video analysis tool that uses OCR and an AI language model to simulate security guard reasoning. It captures video from your webcam, extracts visible text using OCR, and asks an LLM how to respond to the observed scenario. The result is overlaid on the video feed.
 
-CamGuard is a Python-based security tool that leverages computer vision and natural language processing to analyze real-time events captured by your webcam. The application processes live video feeds, extracts text from captured frames using OCR, and then queries a language model to generate actionable security advice. This project is ideal for educational and experimental purposes, demonstrating how to integrate multiple libraries—OpenCV, Tesseract OCR, and the OpenAI API—into a single security-oriented application.
+---
 
-## Features
+## 🔍 Features
 
-- **Real-Time Video Capture:** Uses OpenCV to access the webcam and process live video streams.  
-  :contentReference[oaicite:0]{index=0}&#8203;:contentReference[oaicite:1]{index=1}
+- 🎥 **Real-Time Webcam Monitoring** using OpenCV
+- 🧠 **Text Extraction with OCR** via Tesseract
+- 🤖 **AI-Based Security Advice** using OpenAI's GPT-4o-mini
+- 🖥️ **Live Visual Feedback** with overlayed text and responses
+- 📦 **Modular Codebase** with clear separation of concerns
 
-- **Optical Character Recognition (OCR):** Preprocesses video frames and extracts text using Tesseract via the pytesseract library.  
-  :contentReference[oaicite:2]{index=2}&#8203;:contentReference[oaicite:3]{index=3}
+---
 
-- **LLM-Integrated Security Analysis:** Sends extracted text as a prompt to a language model (using the OpenAI API) to obtain security recommendations, simulating the response of an experienced security guard.  
-  :contentReference[oaicite:4]{index=4}&#8203;:contentReference[oaicite:5]{index=5}
-
-- **On-Screen Overlays:** Provides real-time visual feedback by overlaying detected text and instructions on the video feed.  
-  :contentReference[oaicite:6]{index=6}&#8203;:contentReference[oaicite:7]{index=7}
-
-## Technologies
+## 🧰 Technologies Used
 
 - **Python 3.7+**
-- **OpenCV:** For video capture and frame processing.
-- **Tesseract OCR & pytesseract:** For extracting text from video frames.
-- **OpenAI API:** For querying the language model.
-- **dotenv:** For managing environment variables securely.
+- **OpenCV** – Webcam capture and frame handling
+- **pytesseract** – Python binding for Tesseract OCR
+- **OpenAI API** – For LLM-based reasoning
+- **python-dotenv** – Securely manage API keys and secrets
 
-## File Structure
+---
 
-- **camguard.py:**  
-  The main application file. It captures video from the webcam, performs OCR on each frame, overlays text and instructions on the video feed, and interacts with the language model when prompted.  
-  :contentReference[oaicite:8]{index=8}&#8203;:contentReference[oaicite:9]{index=9}
+## 🗂️ Project Structure
 
-- **ocr.py:**  
-  Contains functions to preprocess images and extract text using Tesseract OCR.  
-  :contentReference[oaicite:10]{index=10}&#8203;:contentReference[oaicite:11]{index=11}
+```bash
+.
+├── camguard.py       # Main loop: video capture, OCR, and LLM integration
+├── ocr.py            # Image preprocessing & text extraction
+├── llm.py            # Query OpenAI model with extracted text
+├── utils.py          # Utility for overlaying text on video frames
+└── README.md         # Project overview and instructions
+```
 
-- **llm.py:**  
-  Provides the function to query the language model using the OpenAI API.  
-  :contentReference[oaicite:12]{index=12}&#8203;:contentReference[oaicite:13]{index=13}
+---
 
-- **utils.py:**  
-  Includes utility functions such as overlaying text on an image frame.  
-  :contentReference[oaicite:14]{index=14}&#8203;:contentReference[oaicite:15]{index=15}
+## ⚙️ Installation & Setup
 
-- **README.md:**  
-  This file.
+### 1. Clone the repository
+```bash
+git clone https://github.com/your-username/CamGuard.git
+cd CamGuard
+```
 
-## Prerequisites
+### 2. Set up the environment
+```bash
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+pip install -r requirements.txt
+```
 
-Before running CamGuard, ensure the following are installed and configured:
+### 3. Install Tesseract
+- **Windows**: [Download Tesseract](https://github.com/tesseract-ocr/tesseract)
+  - Update `camguard.py` with the correct installation path:
+    ```python
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    ```
 
-1. **Python 3.7 or Newer:**  
-   Make sure your Python environment meets this requirement.
+- **Linux/macOS**:
+  ```bash
+  sudo apt install tesseract-ocr
+  ```
 
-2. **Tesseract OCR:**  
-   Install [Tesseract OCR](https://github.com/tesseract-ocr/tesseract).  
-   For Windows users, update the Tesseract path in `camguard.py`:
-   ```python
-   pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+### 4. Add your OpenAI API Key
+Create a `.env` file:
+```env
+OPENAI_API_KEY=your_openai_key_here
+```
+
+---
+
+## 🚀 Running the App
+
+```bash
+python camguard.py
+```
+
+- `Enter` → Sends the current OCR'd text to the LLM for analysis
+- `q` → Quit the application
+
+---
+
+## 🧪 Example Use Case
+
+Imagine you're monitoring a facility entrance. A sign appears with suspicious or important text. CamGuard extracts the text and queries the LLM like this:
+
+**OCR'd Text**:
+```
+Unauthorized entry is prohibited. Violators will be reported.
+```
+
+**LLM Prompted Response**:
+> "Ensure the entrance is monitored, verify the identity of individuals approaching, and alert security staff if any unauthorized person attempts entry."
+
+---
+
+## 📝 To Do / Improvements
+
+- Add voice feedback
+- Improve frame processing performance
+- Integrate image classification (e.g., detect people, signs)
+
+---
+
+## 📜 License
+
+This project is for educational and experimental use. All trademarks and technologies are property of their respective owners.
+
+---
